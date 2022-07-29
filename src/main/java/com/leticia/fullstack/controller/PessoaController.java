@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +33,11 @@ public class PessoaController {
 		if (pessoaList.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
+			for (Pessoa pessoa : pessoaList) {
+				long cdPessoa = pessoa.getCdPessoa();
+				pessoa.add(WebMvcLinkBuilder
+						.linkTo(WebMvcLinkBuilder.methodOn(PessoaController.class).findById(cdPessoa)).withSelfRel());
+			}
 			return new ResponseEntity<List<Pessoa>>(pessoaList, HttpStatus.OK);
 		}
 	}
@@ -42,6 +48,8 @@ public class PessoaController {
 		if (!optional.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
+			optional.get().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PessoaController.class).findAll())
+					.withRel("Lista de Pessoas"));
 			return new ResponseEntity<Pessoa>(optional.get(), HttpStatus.OK);
 		}
 	}

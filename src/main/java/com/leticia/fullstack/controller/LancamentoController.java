@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +33,12 @@ public class LancamentoController {
 		if (lancamentoList.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
+			for (Lancamento lancamento : lancamentoList) {
+				long codProtocolo = lancamento.getCodProtocolo();
+				lancamento.add(WebMvcLinkBuilder
+						.linkTo(WebMvcLinkBuilder.methodOn(LancamentoController.class).findById(codProtocolo))
+						.withSelfRel());
+			}
 			return new ResponseEntity<List<Lancamento>>(lancamentoList, HttpStatus.OK);
 		}
 	}
@@ -42,6 +49,9 @@ public class LancamentoController {
 		if (!optional.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
+			optional.get()
+					.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(LancamentoController.class).findAll())
+							.withRel("Lista de Lancamentos"));
 			return new ResponseEntity<Lancamento>(optional.get(), HttpStatus.OK);
 		}
 	}

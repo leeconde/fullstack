@@ -9,8 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.springframework.hateoas.RepresentationModel;
+
 @Entity
-public class Lancamento {
+public class Lancamento extends RepresentationModel<Lancamento> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

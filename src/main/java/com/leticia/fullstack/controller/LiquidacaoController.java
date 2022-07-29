@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +33,12 @@ public class LiquidacaoController {
 		if (liquidacaoList.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
+			for (Liquidacao liquidacao : liquidacaoList) {
+				long cdLiquidacao = liquidacao.getCdLiquidacao();
+				liquidacao.add(WebMvcLinkBuilder
+						.linkTo(WebMvcLinkBuilder.methodOn(LiquidacaoController.class).findById(cdLiquidacao))
+						.withSelfRel());
+			}
 			return new ResponseEntity<List<Liquidacao>>(liquidacaoList, HttpStatus.OK);
 		}
 	}
@@ -42,6 +49,9 @@ public class LiquidacaoController {
 		if (!optional.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
+			optional.get()
+					.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(LiquidacaoController.class).findAll())
+							.withRel("Lista de Liquidacoes"));
 			return new ResponseEntity<Liquidacao>(optional.get(), HttpStatus.OK);
 		}
 	}

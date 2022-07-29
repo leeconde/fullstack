@@ -5,8 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.hateoas.RepresentationModel;
+
 @Entity
-public class Liquidacao {
+public class Liquidacao extends RepresentationModel<Liquidacao> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
