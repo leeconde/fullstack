@@ -14,7 +14,7 @@ public class Lancamento {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int codProtocolo;
+	private Long codProtocolo;
 
 	@OneToOne
 	private Liquidacao liquidacao;
@@ -26,7 +26,7 @@ public class Lancamento {
 
 	private Date dataLancamento;
 
-	public Lancamento(int codProtocolo, Liquidacao liquidacao, Pessoa pessoa, BigDecimal valorOperacao,
+	public Lancamento(Long codProtocolo, Liquidacao liquidacao, Pessoa pessoa, BigDecimal valorOperacao,
 			Date dataLancamento) {
 		super();
 		this.codProtocolo = codProtocolo;
@@ -39,11 +39,11 @@ public class Lancamento {
 	public Lancamento() {
 	}
 
-	public int getCodProtocolo() {
+	public Long getCodProtocolo() {
 		return codProtocolo;
 	}
 
-	public void setCodProtocolo(int codProtocolo) {
+	public void setCodProtocolo(Long codProtocolo) {
 		this.codProtocolo = codProtocolo;
 	}
 
