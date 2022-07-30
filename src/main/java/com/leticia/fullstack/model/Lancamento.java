@@ -38,6 +38,14 @@ public class Lancamento extends RepresentationModel<Lancamento> {
 		this.dataLancamento = dataLancamento;
 	}
 
+	public Lancamento(Liquidacao liquidacao, Pessoa pessoa, BigDecimal valorOperacao, Date dataLancamento) {
+		super();
+		this.liquidacao = liquidacao;
+		this.pessoa = pessoa;
+		this.valorOperacao = valorOperacao;
+		this.dataLancamento = dataLancamento;
+	}
+
 	public Lancamento() {
 	}
 

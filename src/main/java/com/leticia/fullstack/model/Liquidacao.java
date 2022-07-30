@@ -21,6 +21,11 @@ public class Liquidacao extends RepresentationModel<Liquidacao> {
 		this.nmLiquidacao = nmLiquidacao;
 	}
 
+	public Liquidacao(String nmLiquidacao) {
+		super();
+		this.nmLiquidacao = nmLiquidacao;
+	}
+
 	public Liquidacao() {
 	}
 
