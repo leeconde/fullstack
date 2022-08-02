@@ -1,6 +1,5 @@
 package com.leticia.fullstack.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -24,11 +23,11 @@ public class Lancamento extends RepresentationModel<Lancamento> {
 	@OneToOne
 	private Pessoa pessoa;
 
-	private BigDecimal valorOperacao;
+	private double valorOperacao;
 
 	private Date dataLancamento;
 
-	public Lancamento(Long codProtocolo, Liquidacao liquidacao, Pessoa pessoa, BigDecimal valorOperacao,
+	public Lancamento(Long codProtocolo, Liquidacao liquidacao, Pessoa pessoa, double valorOperacao,
 			Date dataLancamento) {
 		super();
 		this.codProtocolo = codProtocolo;
@@ -38,7 +37,7 @@ public class Lancamento extends RepresentationModel<Lancamento> {
 		this.dataLancamento = dataLancamento;
 	}
 
-	public Lancamento(Liquidacao liquidacao, Pessoa pessoa, BigDecimal valorOperacao, Date dataLancamento) {
+	public Lancamento(Liquidacao liquidacao, Pessoa pessoa, double valorOperacao, Date dataLancamento) {
 		super();
 		this.liquidacao = liquidacao;
 		this.pessoa = pessoa;
@@ -73,11 +72,11 @@ public class Lancamento extends RepresentationModel<Lancamento> {
 		this.pessoa = pessoa;
 	}
 
-	public BigDecimal getValorOperacao() {
+	public double getValorOperacao() {
 		return valorOperacao;
 	}
 
-	public void setValorOperacao(BigDecimal valorOperacao) {
+	public void setValorOperacao(double valorOperacao) {
 		this.valorOperacao = valorOperacao;
 	}
 

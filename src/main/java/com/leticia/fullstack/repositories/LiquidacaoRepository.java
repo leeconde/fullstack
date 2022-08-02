@@ -1,13 +1,13 @@
 package com.leticia.fullstack.repositories;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.leticia.fullstack.model.Liquidacao;
 
+@Repository
 public interface LiquidacaoRepository extends JpaRepository<Liquidacao, Long> {
 
-	List<Liquidacao> findByNmLiquidacao(String nome);
+	Liquidacao findByNmLiquidacao(String nome);
 
 }

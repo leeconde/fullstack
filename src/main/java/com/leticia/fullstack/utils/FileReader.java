@@ -1,16 +1,17 @@
 package com.leticia.fullstack.utils;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
 import com.leticia.fullstack.model.Lancamento;
 import com.leticia.fullstack.model.Liquidacao;
@@ -22,66 +23,47 @@ import com.leticia.fullstack.repositories.PessoaRepository;
 public class FileReader {
 
 	@Autowired
-	PessoaRepository pessoaRepository;
+	private PessoaRepository pessoaRepository;
 
 	@Autowired
-	LiquidacaoRepository liquidacaoRepository;
+	private LiquidacaoRepository liquidacaoRepository;
 
 	@Autowired
-	LancamentoRepository lancamentoRepository;
+	private LancamentoRepository lancamentoRepository;
 
-	public void lerArquivo(File file) throws ParseException {
+	String path = "C:\\Users\\Leticia\\Documents\\tmp\\Importar.txt";
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	List<Lancamento> lancamentoList = new ArrayList<Lancamento>();
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-		try (BufferedReader bf = new BufferedReader(new java.io.FileReader(file))) {
-			String line = bf.readLine();
-			line = bf.readLine();
-
-			if (line == null) {
-				throw new NullPointerException();
-			}
-
+	public void lerArquivo() throws ParseException {
+		try (BufferedReader br = new BufferedReader(new java.io.FileReader(path))) {
+			String line = br.readLine();
+			line = br.readLine();
 			while (line != null) {
-				String[] arrayString = new String[5];
-				arrayString = line.split(",");
-				String liquidacaoCatched = arrayString[0];
-				String nomePessoa = arrayString[1];
-				String nuCpfCnpjPessoa = arrayString[2];
-				String tpPessoa = arrayString[3];
-				String valorOperacao = arrayString[4];
-				Date dataLancamento = sdf.parse(arrayString[5]);
+				String[] vect = line.split(",");
+				String liquidacaoCatched = vect[0];
+				String nomePessoa = vect[1];
+				String nuCpfCnpjPessoa = vect[2];
+				String tpPessoa = vect[3];
+				Double valorOperacao = Double.parseDouble(vect[4]);
+				Date dataLancamento = sdf.parse(vect[5]);
 
 				char tpPessoaChar = tpPessoa.charAt(0);
-				BigDecimal valorConvertido = new BigDecimal(valorOperacao);
-				assertEquals(new BigDecimal(valorOperacao), valorConvertido);
 
-				Pessoa pessoa = (Pessoa) pessoaRepository.findAll().stream()
-						.filter(p -> p.getNuCpfCnpj().equals(nuCpfCnpjPessoa));
+				Pessoa pessoa = pessoaRepository.findByNuCpfCnpj(nuCpfCnpjPessoa);
 
 				if (pessoa == null) {
-					pessoa = new Pessoa(nuCpfCnpjPessoa, nomePessoa, tpPessoaChar);
-					pessoaRepository.save(pessoa);
+					Pessoa pessoaNova = new Pessoa(nuCpfCnpjPessoa, nomePessoa, tpPessoaChar);
+					Liquidacao liquidacao = liquidacaoRepository.findByNmLiquidacao(liquidacaoCatched);
+					Lancamento lancamento = new Lancamento(liquidacao, pessoaNova, valorOperacao, dataLancamento);
+					lancamentoRepository.save(lancamento);
+					line = br.readLine();
 				}
-
-				Liquidacao liquidacao = (Liquidacao) liquidacaoRepository.findAll().stream()
-						.filter(l -> l.getNmLiquidacao().equals(liquidacaoCatched));
-
-				if (liquidacao == null) {
-					liquidacao = new Liquidacao(liquidacaoCatched);
-					liquidacaoRepository.save(liquidacao);
-				}
-
-				Lancamento lancamento = new Lancamento(liquidacao, pessoa, valorConvertido, dataLancamento);
-				lancamentoRepository.save(lancamento);
-				line = bf.readLine();
-
 			}
-
 		} catch (IOException e) {
-			System.out.print(e.getMessage());
+			System.out.println("Erro: " + e.getMessage());
 		}
-
 	}
 
 }
