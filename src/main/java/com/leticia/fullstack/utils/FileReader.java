@@ -7,10 +7,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+
+import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import com.leticia.fullstack.model.Lancamento;
@@ -20,6 +31,7 @@ import com.leticia.fullstack.repositories.LancamentoRepository;
 import com.leticia.fullstack.repositories.LiquidacaoRepository;
 import com.leticia.fullstack.repositories.PessoaRepository;
 
+@Controller
 public class FileReader {
 
 	@Autowired
@@ -36,6 +48,7 @@ public class FileReader {
 	List<Lancamento> lancamentoList = new ArrayList<Lancamento>();
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
+	@PostConstruct
 	public void lerArquivo() throws ParseException {
 		try (BufferedReader br = new BufferedReader(new java.io.FileReader(path))) {
 			String line = br.readLine();
@@ -51,15 +64,14 @@ public class FileReader {
 
 				char tpPessoaChar = tpPessoa.charAt(0);
 
-				Pessoa pessoa = pessoaRepository.findByNuCpfCnpj(nuCpfCnpjPessoa);
+				Pessoa pessoa = pessoaRepository.findAll().stream()
+						.filter(p -> p.getNuCpfCnpj().equals(nuCpfCnpjPessoa)).findFirst()
+						.orElse(new Pessoa(nuCpfCnpjPessoa, nomePessoa, tpPessoaChar));
 
-				if (pessoa == null) {
-					Pessoa pessoaNova = new Pessoa(nuCpfCnpjPessoa, nomePessoa, tpPessoaChar);
-					Liquidacao liquidacao = liquidacaoRepository.findByNmLiquidacao(liquidacaoCatched);
-					Lancamento lancamento = new Lancamento(liquidacao, pessoaNova, valorOperacao, dataLancamento);
-					lancamentoRepository.save(lancamento);
-					line = br.readLine();
-				}
+				Liquidacao liquidacao = liquidacaoRepository.findByNmLiquidacao(liquidacaoCatched);
+				Lancamento lancamento = new Lancamento(liquidacao, pessoa, valorOperacao, dataLancamento);
+				lancamentoRepository.save(lancamento);
+				line = br.readLine();
 			}
 		} catch (IOException e) {
 			System.out.println("Erro: " + e.getMessage());

@@ -23,6 +23,9 @@ public class Pessoa extends RepresentationModel<Pessoa> implements Serializable 
 
 	private char tpPessoa;
 
+	public Pessoa() {
+	}
+
 	public Pessoa(Long cdPessoa, String nuCpfCnpj, String nmPessoa, char tpPessoa) {
 		this.cdPessoa = cdPessoa;
 		this.nuCpfCnpj = nuCpfCnpj;
@@ -42,10 +45,6 @@ public class Pessoa extends RepresentationModel<Pessoa> implements Serializable 
 
 	public void setCdPessoa(Long cdPessoa) {
 		this.cdPessoa = cdPessoa;
-	}
-
-	public Pessoa() {
-		super();
 	}
 
 	public String getNuCpfCnpj() {
