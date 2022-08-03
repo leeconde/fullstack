@@ -31,7 +31,6 @@ import com.leticia.fullstack.repositories.LancamentoRepository;
 import com.leticia.fullstack.repositories.LiquidacaoRepository;
 import com.leticia.fullstack.repositories.PessoaRepository;
 
-@Controller
 public class FileReader {
 
 	@Autowired
@@ -48,7 +47,6 @@ public class FileReader {
 	List<Lancamento> lancamentoList = new ArrayList<Lancamento>();
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-	@PostConstruct
 	public void lerArquivo() throws ParseException {
 		try (BufferedReader br = new BufferedReader(new java.io.FileReader(path))) {
 			String line = br.readLine();
