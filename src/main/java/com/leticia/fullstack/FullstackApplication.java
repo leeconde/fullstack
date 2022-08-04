@@ -13,9 +13,9 @@ public class FullstackApplication {
 	public static void main(String[] args) throws ParseException {
 		SpringApplication.run(FullstackApplication.class, args);
 
-//		System.out.println("Importando arquivo");
-//		FileReader fileReader = new FileReader();
-//		fileReader.lerArquivo();
+		System.out.println("Importando arquivo");
+		FileReader fileReader = new FileReader();
+		fileReader.lerArquivo();
 	}
 
 }

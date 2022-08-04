@@ -12,4 +12,4 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 
 	Pessoa findByNuCpfCnpj(String nuCpfCnpj);
 
-	}
+}
