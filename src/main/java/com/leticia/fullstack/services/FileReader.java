@@ -1,4 +1,4 @@
-package com.leticia.fullstack.utils;
+package com.leticia.fullstack.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,6 +31,7 @@ import com.leticia.fullstack.repositories.LancamentoRepository;
 import com.leticia.fullstack.repositories.LiquidacaoRepository;
 import com.leticia.fullstack.repositories.PessoaRepository;
 
+@Service
 public class FileReader {
 
 	@Autowired
@@ -63,13 +64,22 @@ public class FileReader {
 				char tpPessoaChar = tpPessoa.charAt(0);
 
 				Pessoa pessoa = pessoaRepository.findAll().stream()
-						.filter(p -> p.getNuCpfCnpj().equals(nuCpfCnpjPessoa)).findFirst()
+						.filter(p -> p.getNuCpfCnpj().equalsIgnoreCase(nuCpfCnpjPessoa)).findFirst()
 						.orElse(new Pessoa(nuCpfCnpjPessoa, nomePessoa, tpPessoaChar));
 
-				Liquidacao liquidacao = liquidacaoRepository.findByNmLiquidacao(liquidacaoCatched);
+				pessoaRepository.save(pessoa);
+
+				Liquidacao liquidacao = liquidacaoRepository.findAll().stream()
+						.filter(l -> l.getNmLiquidacao().equalsIgnoreCase(liquidacaoCatched)).findFirst()
+						.orElse(new Liquidacao(liquidacaoCatched));
+
+				liquidacaoRepository.save(liquidacao);
+
 				Lancamento lancamento = new Lancamento(liquidacao, pessoa, valorOperacao, dataLancamento);
 				lancamentoRepository.save(lancamento);
+
 				line = br.readLine();
+
 			}
 		} catch (IOException e) {
 			System.out.println("Erro: " + e.getMessage());
