@@ -56,6 +56,19 @@ public class LiquidacaoController {
 		}
 	}
 
+	@GetMapping("/liquidacao/nome/{name}")
+	public ResponseEntity<Liquidacao> findByName(@PathVariable("name") String nmLiquidacao) {
+		Optional<Liquidacao> optional = liquidacaoRepository.findByNmLiquidacao(nmLiquidacao);
+		if (!optional.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			optional.get()
+					.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(LiquidacaoController.class).findAll())
+							.withRel("Lista de Liquidacoes"));
+			return new ResponseEntity<Liquidacao>(optional.get(), HttpStatus.OK);
+		}
+	}
+
 	@PostMapping("/liquidacao")
 	public ResponseEntity<Liquidacao> incluirLiquidacao(@RequestBody @Valid Liquidacao liquidacao) {
 		return new ResponseEntity<Liquidacao>(liquidacaoRepository.save(liquidacao), HttpStatus.CREATED);
