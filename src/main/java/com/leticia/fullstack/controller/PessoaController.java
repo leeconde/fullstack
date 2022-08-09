@@ -54,6 +54,18 @@ public class PessoaController {
 		}
 	}
 
+	@GetMapping("/pessoa/documento/{nuCpfCnpj}")
+	public ResponseEntity<Pessoa> findBy(@PathVariable("nuCpfCnpj") String nuCpfCnpj) {
+		Optional<Pessoa> optional = pessoaRepository.findByNuCpfCnpj(nuCpfCnpj);
+		if (!optional.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			optional.get().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PessoaController.class).findAll())
+					.withRel("Lista de Pessoas"));
+			return new ResponseEntity<Pessoa>(optional.get(), HttpStatus.OK);
+		}
+	}
+
 	@PostMapping("/pessoa")
 	public ResponseEntity<Pessoa> incluirPessoa(@RequestBody @Valid Pessoa pessoa) {
 		return new ResponseEntity<Pessoa>(pessoaRepository.save(pessoa), HttpStatus.CREATED);

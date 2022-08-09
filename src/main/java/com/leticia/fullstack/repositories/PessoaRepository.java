@@ -1,5 +1,7 @@
 package com.leticia.fullstack.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +12,6 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 
 	Pessoa findByNmPessoa(String nome);
 
-	Pessoa findByNuCpfCnpj(String nuCpfCnpj);
+	Optional<Pessoa> findByNuCpfCnpj(String nuCpfCnpj);
 
 }
