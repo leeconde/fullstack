@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.leticia.fullstack.model.Lancamento;
 
 @Repository
-public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
+public interface LancamentoRepository extends JpaRepository<Lancamento, Integer> {
 
 }

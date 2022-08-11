@@ -18,13 +18,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leticia.fullstack.model.Lancamento;
+import com.leticia.fullstack.model.Liquidacao;
+import com.leticia.fullstack.model.Pessoa;
 import com.leticia.fullstack.repositories.LancamentoRepository;
+import com.leticia.fullstack.repositories.LiquidacaoRepository;
+import com.leticia.fullstack.repositories.PessoaRepository;
 
 @RestController
 public class LancamentoController {
 
 	@Autowired
 	LancamentoRepository lancamentoRepository;
+
+	@Autowired
+	PessoaRepository pessoaRepository;
+
+	@Autowired
+	LiquidacaoRepository liquidacaoRepository;
 
 	@GetMapping("/lancamento")
 	public ResponseEntity<List<Lancamento>> findAll() {
@@ -34,7 +44,7 @@ public class LancamentoController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			for (Lancamento lancamento : lancamentoList) {
-				long codProtocolo = lancamento.getCodProtocolo();
+				int codProtocolo = lancamento.getCodProtocolo();
 				lancamento.add(WebMvcLinkBuilder
 						.linkTo(WebMvcLinkBuilder.methodOn(LancamentoController.class).findById(codProtocolo))
 						.withSelfRel());
@@ -44,7 +54,7 @@ public class LancamentoController {
 	}
 
 	@GetMapping("/lancamento/{id}")
-	public ResponseEntity<Lancamento> findById(@PathVariable(value = "id") long id) {
+	public ResponseEntity<Lancamento> findById(@PathVariable(value = "id") int id) {
 		Optional<Lancamento> optional = lancamentoRepository.findById(id);
 		if (!optional.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -62,7 +72,7 @@ public class LancamentoController {
 	}
 
 	@DeleteMapping("/lancamento/{id}")
-	public ResponseEntity<?> deletarLancamento(@PathVariable(value = "id") long id) {
+	public ResponseEntity<?> deletarLancamento(@PathVariable(value = "id") int id) {
 		Optional<Lancamento> optional = lancamentoRepository.findById(id);
 		if (!optional.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -73,7 +83,7 @@ public class LancamentoController {
 	}
 
 	@PutMapping("/lancamento/{id}")
-	public ResponseEntity<Lancamento> atualizarLancamento(@PathVariable(value = "id") long id,
+	public ResponseEntity<Lancamento> atualizarLancamento(@PathVariable(value = "id") int id,
 			@RequestBody @Valid Lancamento lancamento) {
 
 		Optional<Lancamento> optional = lancamentoRepository.findById(id);

@@ -1,12 +1,12 @@
 package com.leticia.fullstack.model;
 
-import java.util.Date;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.springframework.hateoas.RepresentationModel;
 
@@ -15,20 +15,20 @@ public class Lancamento extends RepresentationModel<Lancamento> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long codProtocolo;
+	private int codProtocolo;
 
-	@OneToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Liquidacao liquidacao;
 
-	@OneToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Pessoa pessoa;
 
 	private double valorOperacao;
 
-	private Date dataLancamento;
+	private String dataLancamento;
 
-	public Lancamento(Long codProtocolo, Liquidacao liquidacao, Pessoa pessoa, double valorOperacao,
-			Date dataLancamento) {
+	public Lancamento(int codProtocolo, Liquidacao liquidacao, Pessoa pessoa, double valorOperacao,
+			String dataLancamento) {
 		super();
 		this.codProtocolo = codProtocolo;
 		this.liquidacao = liquidacao;
@@ -37,7 +37,7 @@ public class Lancamento extends RepresentationModel<Lancamento> {
 		this.dataLancamento = dataLancamento;
 	}
 
-	public Lancamento(Liquidacao liquidacao, Pessoa pessoa, double valorOperacao, Date dataLancamento) {
+	public Lancamento(Liquidacao liquidacao, Pessoa pessoa, double valorOperacao, String dataLancamento) {
 		super();
 		this.liquidacao = liquidacao;
 		this.pessoa = pessoa;
@@ -48,11 +48,11 @@ public class Lancamento extends RepresentationModel<Lancamento> {
 	public Lancamento() {
 	}
 
-	public Long getCodProtocolo() {
+	public int getCodProtocolo() {
 		return codProtocolo;
 	}
 
-	public void setCodProtocolo(Long codProtocolo) {
+	public void setCodProtocolo(int codProtocolo) {
 		this.codProtocolo = codProtocolo;
 	}
 
@@ -80,11 +80,11 @@ public class Lancamento extends RepresentationModel<Lancamento> {
 		this.valorOperacao = valorOperacao;
 	}
 
-	public Date getDataLancamento() {
+	public String getDataLancamento() {
 		return dataLancamento;
 	}
 
-	public void setDataLancamento(Date dataLancamento) {
+	public void setDataLancamento(String dataLancamento) {
 		this.dataLancamento = dataLancamento;
 	}
 

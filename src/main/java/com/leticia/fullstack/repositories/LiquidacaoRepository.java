@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.leticia.fullstack.model.Liquidacao;
 
 @Repository
-public interface LiquidacaoRepository extends JpaRepository<Liquidacao, Long> {
+public interface LiquidacaoRepository extends JpaRepository<Liquidacao, Integer> {
 
 	Optional<Liquidacao> findByNmLiquidacao(String nome);
 

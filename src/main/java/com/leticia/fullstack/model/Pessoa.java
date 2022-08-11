@@ -15,7 +15,7 @@ public class Pessoa extends RepresentationModel<Pessoa> implements Serializable 
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long cdPessoa;
+	private int cdPessoa;
 
 	private String nuCpfCnpj;
 
@@ -26,7 +26,7 @@ public class Pessoa extends RepresentationModel<Pessoa> implements Serializable 
 	public Pessoa() {
 	}
 
-	public Pessoa(Long cdPessoa, String nuCpfCnpj, String nmPessoa, char tpPessoa) {
+	public Pessoa(int cdPessoa, String nuCpfCnpj, String nmPessoa, char tpPessoa) {
 		this.cdPessoa = cdPessoa;
 		this.nuCpfCnpj = nuCpfCnpj;
 		this.nmPessoa = nmPessoa;
@@ -39,11 +39,11 @@ public class Pessoa extends RepresentationModel<Pessoa> implements Serializable 
 		this.tpPessoa = tpPessoa;
 	}
 
-	public Long getCdPessoa() {
+	public int getCdPessoa() {
 		return cdPessoa;
 	}
 
-	public void setCdPessoa(Long cdPessoa) {
+	public void setCdPessoa(int cdPessoa) {
 		this.cdPessoa = cdPessoa;
 	}
 

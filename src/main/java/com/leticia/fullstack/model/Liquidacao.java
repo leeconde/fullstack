@@ -12,11 +12,11 @@ public class Liquidacao extends RepresentationModel<Liquidacao> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long cdLiquidacao;
+	private int cdLiquidacao;
 
 	private String nmLiquidacao;
 
-	public Liquidacao(Long cdLiquidacao, String nmLiquidacao) {
+	public Liquidacao(int cdLiquidacao, String nmLiquidacao) {
 		this.cdLiquidacao = cdLiquidacao;
 		this.nmLiquidacao = nmLiquidacao;
 	}
@@ -29,11 +29,11 @@ public class Liquidacao extends RepresentationModel<Liquidacao> {
 	public Liquidacao() {
 	}
 
-	public Long getCdLiquidacao() {
+	public int getCdLiquidacao() {
 		return cdLiquidacao;
 	}
 
-	public void setCdLiquidacao(Long cdLiquidacao) {
+	public void setCdLiquidacao(int cdLiquidacao) {
 		this.cdLiquidacao = cdLiquidacao;
 	}
 

@@ -34,7 +34,7 @@ public class PessoaController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			for (Pessoa pessoa : pessoaList) {
-				long cdPessoa = pessoa.getCdPessoa();
+				int cdPessoa = pessoa.getCdPessoa();
 				pessoa.add(WebMvcLinkBuilder
 						.linkTo(WebMvcLinkBuilder.methodOn(PessoaController.class).findById(cdPessoa)).withSelfRel());
 			}
@@ -43,7 +43,7 @@ public class PessoaController {
 	}
 
 	@GetMapping("/pessoa/{id}")
-	public ResponseEntity<Pessoa> findById(@PathVariable(value = "id") long id) {
+	public ResponseEntity<Pessoa> findById(@PathVariable(value = "id") int id) {
 		Optional<Pessoa> optional = pessoaRepository.findById(id);
 		if (!optional.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -72,7 +72,7 @@ public class PessoaController {
 	}
 
 	@DeleteMapping("/pessoa/{id}")
-	public ResponseEntity<?> deletarPessoa(@PathVariable(value = "id") long id) {
+	public ResponseEntity<?> deletarPessoa(@PathVariable(value = "id") int id) {
 		Optional<Pessoa> optional = pessoaRepository.findById(id);
 		if (!optional.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -83,7 +83,7 @@ public class PessoaController {
 	}
 
 	@PutMapping("/pessoa/{id}")
-	public ResponseEntity<Pessoa> atualizarPessoa(@PathVariable(value = "id") long id,
+	public ResponseEntity<Pessoa> atualizarPessoa(@PathVariable(value = "id") int id,
 			@RequestBody @Valid Pessoa pessoa) {
 
 		Optional<Pessoa> optional = pessoaRepository.findById(id);

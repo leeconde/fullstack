@@ -46,7 +46,7 @@ public class FileReader {
 	String path = "C:\\Users\\Leticia\\Documents\\tmp\\Importar.txt";
 
 	List<Lancamento> lancamentoList = new ArrayList<Lancamento>();
-	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	public void lerArquivo() throws ParseException {
 		try (BufferedReader br = new BufferedReader(new java.io.FileReader(path))) {
@@ -59,7 +59,8 @@ public class FileReader {
 				String nuCpfCnpjPessoa = vect[2];
 				String tpPessoa = vect[3];
 				Double valorOperacao = Double.parseDouble(vect[4]);
-				Date dataLancamento = sdf.parse(vect[5]);
+				String dataLancamento = vect[5];
+				//Date dataLancamento = sdf.parse(vect[5]);
 
 				char tpPessoaChar = tpPessoa.charAt(0);
 

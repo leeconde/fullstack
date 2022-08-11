@@ -34,7 +34,7 @@ public class LiquidacaoController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
 			for (Liquidacao liquidacao : liquidacaoList) {
-				long cdLiquidacao = liquidacao.getCdLiquidacao();
+				int cdLiquidacao = liquidacao.getCdLiquidacao();
 				liquidacao.add(WebMvcLinkBuilder
 						.linkTo(WebMvcLinkBuilder.methodOn(LiquidacaoController.class).findById(cdLiquidacao))
 						.withSelfRel());
@@ -44,7 +44,7 @@ public class LiquidacaoController {
 	}
 
 	@GetMapping("/liquidacao/{id}")
-	public ResponseEntity<Liquidacao> findById(@PathVariable(value = "id") long id) {
+	public ResponseEntity<Liquidacao> findById(@PathVariable(value = "id") int id) {
 		Optional<Liquidacao> optional = liquidacaoRepository.findById(id);
 		if (!optional.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -75,7 +75,7 @@ public class LiquidacaoController {
 	}
 
 	@DeleteMapping("/liquidacao/{id}")
-	public ResponseEntity<?> deletarLiquidacao(@PathVariable(value = "id") long id) {
+	public ResponseEntity<?> deletarLiquidacao(@PathVariable(value = "id") int id) {
 		Optional<Liquidacao> optional = liquidacaoRepository.findById(id);
 		if (!optional.isPresent()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -86,7 +86,7 @@ public class LiquidacaoController {
 	}
 
 	@PutMapping("/liquidacao/{id}")
-	public ResponseEntity<Liquidacao> atualizarLiquidacao(@PathVariable(value = "id") long id,
+	public ResponseEntity<Liquidacao> atualizarLiquidacao(@PathVariable(value = "id") int id,
 			@RequestBody @Valid Liquidacao liquidacao) {
 
 		Optional<Liquidacao> optional = liquidacaoRepository.findById(id);

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.leticia.fullstack.model.Pessoa;
 
 @Repository
-public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
+public interface PessoaRepository extends JpaRepository<Pessoa, Integer> {
 
 	Pessoa findByNmPessoa(String nome);
 
